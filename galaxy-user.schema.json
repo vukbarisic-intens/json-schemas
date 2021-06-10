@@ -1,0 +1,163 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#user",
+    "type": "object",
+    "title": "User",
+    "description": "Galaxy digital API User representing a volunteer",
+
+      
+    "properties": {
+      "id": {
+        "description": "Unique identifier for the user record.",
+        "type": "string"
+      },
+        
+      "status": {
+        "description": "Current status of user.",
+        "enum": ["active", "inactive", "pending", "imported"]
+      },
+        
+      "referenceId": {
+        "description": "Remote unique identifier for the user record.",
+        "type": "string"
+      },
+
+      "firstName": {
+        "description": "First name for the user.",
+        "type": "string"
+      },
+
+      "lastName": {
+        "description": "Last name for the user.",
+        "type": "string"
+      },
+
+      "middleName": {
+        "description": "Middle name for the user.",
+        "type": "string"
+      },
+
+      "email": {
+        "description": "Valid email address for the user.",
+        "type": "string"
+      },
+
+      "mobile": {
+        "description": "Cell phone number for the user.",
+        "type": "string"
+      },
+
+      "phone": {
+        "description": "Phone number for the user.",
+        "type": "string"
+      },
+
+      "company": {
+        "description": "Company as defined by the user.",
+        "type": "string"
+      },
+
+      "gender": {
+        "description": "Gender of the user.",
+        "type": "string"
+      },
+
+      "birthdate": {
+        "description": "Birthdate as defined by the user.",
+        "type": "string"
+      },
+
+      "address": {
+        "description": "Street address for the user.",
+        "type": "string"
+      },
+
+      "address2": {
+        "description": "Secondary address for the user. e.g. Appt 2",
+        "type": "string"
+      },
+
+      "city": {
+        "description": "City for the user",
+        "type": "string"
+      },
+
+      "state": {
+        "description": "Two letter state abbreviation. e.g. NY",
+        "type": "string"
+      },
+
+      "postal": {
+        "description": "Zip/Postal code for the user",
+        "type": "string"
+      },
+
+      "dateAdded": {
+        "description": "The time, in ISO 8601 format, at which the user was created.",
+        "type": "string"
+      },
+
+      "dateUpdated": {
+        "description": "The time, in ISO 8601 format, at which the user was updated.",
+        "type": "string"
+      },
+
+      "dateLastLogin": {
+        "description": "The time, in ISO 8601 format, at which the user last logged in.",
+        "type": "string"
+      },
+
+      "link": {
+        "description": "Link to be used that will auto-log user into the site. Note: must pass 'getLogin' parameter in request to receive.",
+        "type": "string"
+      },
+
+      "expires": {
+        "description": "The time, in ISO 8601 format, that this link will expire.",
+        "type": "string"
+      },
+
+      "now": {
+        "description": "The current server time in ISO 8601 format.",
+        "type": "string"
+      },
+
+      "duplicate": {
+        "description": "Indicates if the user you are attempting to add is a duplicate.",
+        "type": "string"
+      },
+
+      "favoriteAgencies": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "agencyId": {
+                    "type": "string"
+                },
+                "agencyName": {
+                    "type": "string"
+                }
+            }
+        }
+      }
+      
+      
+    },
+    "required": [
+      "id",
+      "status",
+      "referenceId",
+      "firstName",
+      "lastName",
+      "middleName",
+      "email",
+      "address",
+      "address2",
+      "city",
+      "state",
+      "postal",
+      "dateAdded",
+      "dateUpdated"
+    ]
+}

@@ -1,0 +1,126 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#hour",
+    "title": "Hour",
+    "description": "Galaxy digital API Hour",
+    "type": "object",
+    "properties": {
+        "hourId": {
+            "description": "Unique identifier for the record.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },
+
+        "status": {
+            "description": "Current status of the record.",
+            "type": "string"
+        },
+
+        "contactName": {
+            "description": "Contact name from the need",
+            "type": "string"
+        },
+
+        "contactDetails": {
+            "description": "Contact details from the need.",
+            "type": "string"
+        },
+
+        "hours": {
+            "description": "Number of hours submitted for this entry.",
+            "type": "string"
+        },
+
+        "volunteerDate": {
+            "description": "The date and time the volunteer began.",
+            "type": "string"
+        },
+
+        "hourType": {
+            "description": "Type of hour entry. Either need or individual.",
+            "type": "string"
+        },
+
+        "miles": {
+            "description": "Number of miles submitted for this entry.",
+            "type": "string"
+        },
+
+        "location": {
+            "description": "Location information added by the user.",
+            "type": "string" 
+        },
+
+        "description": {
+            "description": "Description information added by the user for this entry.",
+            "type": "string"
+        },
+
+        "agencyId": {
+            "description": "Id of the agency that created the need.",
+            "type": "string"
+        },
+
+        "agencyName": {
+            "description": "Name of the agency that created the need.",
+            "type": "string"
+          },
+
+        "aemId": {
+            "description": "Unique ID of the Advanced Event attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },
+
+        "aemTitle": {
+            "description": "Title of the Advanced Event attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },
+
+        "needId": {
+            "description": "ID of the need to which the user responded.",
+            "type": "string"
+        },
+        "needTitle" : {
+            "description": "Name of the need to which the user responded.",
+            "type": "string"
+        },
+        "needDate": {
+            "description": "Date of the need to which the user responded.",
+            "type": "string"
+        },
+  
+        "userId": {
+            "description": "ID of the user who responded.",
+            "type": "string"
+            },
+  
+        "firstName": {
+            "description": "First name of the user who responded.",
+            "type": "string"
+        },
+  
+        "lastName": {
+            "description": "Last name of the user who responded.",
+            "type": "string"
+        },
+  
+        "email": {
+            "description": "Email name of the user who responded.",
+            "type": "string"
+        },
+        "dateAdded" : {
+            "description": "The date, in ISO 8601 format, that hour entry was added.",
+            "type": "string"
+        },
+        "dateUpdated": {
+              "description": "The date, in ISO 8601 format, that hour entry was last updated.",
+              "type": "string"
+        }
+
+      },
+      "required": [
+        "hourId"
+      ]
+    }

@@ -1,0 +1,161 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#response",
+    "title": "Response",
+    "description": "Galaxy digital API Response",
+    "type": "object",
+    "properties": {
+
+        "responseId": {
+          "description": "Unique identifier for the record.",
+          "type": "string",
+          "pattern": "^[0-9]+$" 
+        },
+
+        "responseStatus": {
+          "description": "Current status of the record.",
+          "type": "string"
+        },
+        
+        "responsePhone": {
+            "description": "Title of the record.",
+            "type": "string"
+          },
+  
+        "responseAddress": {
+            "description": "Description of the record.",
+            "type": "string"
+        },
+
+        "responseNote": {
+            "description": "Website listed for the event.",
+            "type": "string"
+        },
+
+        "waiverAgree": {
+            "description": "Host listed for the event.",
+            "type": "string"
+        },
+
+        "agencyId": {
+            "description": "Contact listed for the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "agencyName": {
+            "description": "Venue listed for the event.",
+            "type": "string"
+        },
+
+        "needId": {
+            "description": "Address listed for the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "needTitle": {
+            "description": "Address listed for the event.",
+            "type": "string"
+        },
+
+        "userId": {
+            "description": "City listed for the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "firstName": {
+            "description": "State listed for the event.",
+            "type": "string"
+        },
+
+        "lastName": {
+            "description": "Zip code listed for the event.",
+            "type": "string"
+        },
+
+        "email": {
+            "description": "County listed for the event.",
+            "type": "string"
+        },
+
+        "aemId": {
+            "description": "Email listed for the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+        "aemTitle" : {
+            "description": "The date/time, in ISO 8601 format, that the event starts.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "initiativeId": {
+            "description": "The date/time, in ISO 8601 format, that the event ends",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "initiativeTitle": {
+            "description": "The date/time, in ISO 8601 format, that the event was added.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+
+        "companyId": {
+            "description": "The date/time, in ISO 8601 format, that the event was last updated.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+        "companyName" : {
+            "description": "The ID for the agency that created the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$"
+        },
+  
+        "shifts": {
+            "description": "The shift attached to this response. Shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "shiftId": {
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "type": "string"
+                    },
+                    "endDate": {
+                        "type": "string"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "capacity": {
+                        "type": "string"
+                    },
+                    "responses": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+                
+            }
+        },
+        "responseAdded" : {
+            "description": "The current status of the agency that created the event.",
+            "type": "string"
+        },
+        "responseUpdated" : {
+            "description": "The current status of the agency that created the event.",
+            "type": "string"
+        }
+    },
+  
+        "required": [
+            "responseId"
+          ]
+        }

@@ -1,0 +1,122 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#event",
+    "title": "Event",
+    "description": "Galaxy digital API Event",
+    "type": "object",
+    "properties": {
+
+        "eventId": {
+          "description": "Unique identifier for the record.",
+          "type": "string",
+          "pattern": "^[0-9]+$" 
+        },
+
+        "eventStatus": {
+          "description": "Current status of the record.",
+          "type": "string"
+        },
+        
+        "eventTitle": {
+            "description": "Title of the record.",
+            "type": "string"
+          },
+  
+        "eventDescription": {
+            "description": "Description of the record.",
+            "type": "string"
+        },
+
+        "eventWebsite": {
+            "description": "Website listed for the event.",
+            "type": "string"
+        },
+
+        "eventHost": {
+            "description": "Host listed for the event.",
+            "type": "string"
+        },
+
+        "eventContact": {
+            "description": "Contact listed for the event.",
+            "type": "string"
+        },
+
+        "eventVenue": {
+            "description": "Venue listed for the event.",
+            "type": "string"
+        },
+
+        "eventAddress": {
+            "description": "Address listed for the event.",
+            "type": "string" 
+        },
+
+        "eventAddress2": {
+            "description": "Address listed for the event.",
+            "type": "string"
+        },
+
+        "eventCity": {
+            "description": "City listed for the event.",
+            "type": "string"
+        },
+
+        "eventState": {
+            "description": "State listed for the event.",
+            "type": "string"
+        },
+
+        "eventZipCode": {
+            "description": "Zip code listed for the event.",
+            "type": "string"
+        },
+
+        "eventCounty": {
+            "description": "County listed for the event.",
+            "type": "string"
+        },
+
+        "eventEmail": {
+            "description": "Email listed for the event.",
+            "type": "string"
+        },
+        "eventStart" : {
+            "description": "The date/time, in ISO 8601 format, that the event starts.",
+            "type": "string"
+        },
+
+        "eventEnd": {
+            "description": "The date/time, in ISO 8601 format, that the event ends",
+            "type": "string"
+        },
+
+        "dateAdded": {
+            "description": "The date/time, in ISO 8601 format, that the event was added.",
+            "type": "string"
+        },
+
+        "dateUpdated": {
+            "description": "The date/time, in ISO 8601 format, that the event was last updated.",
+            "type": "string"
+        },
+        "agencyId" : {
+            "description": "The ID for the agency that created the event.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },
+  
+        "agencyName": {
+            "description": "The name of the agency that created the event.",
+            "type": "string"
+        },
+        "agencyStatus" : {
+            "description": "The current status of the agency that created the event.",
+            "type": "string"
+        }
+    },
+  
+        "required": [
+            "eventId"
+          ]
+        }

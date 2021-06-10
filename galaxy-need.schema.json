@@ -1,0 +1,250 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#need",
+    "title": "Need",
+    "description": "Galaxy digital API Need",
+    "type": "object",
+    "properties": {
+        "id": {
+          "description": "Unique identifier for the need record.",
+          "type": "string",
+          "pattern": "^[0-9]+$" 
+        },
+
+        "needAddress": {
+          "description": "Street address for need.",
+          "type": "string"
+        },
+        
+        "needCity": {
+            "description": "City for need.",
+            "type": "string"
+        },
+
+        "needState": {
+        "description": "State for need.",
+        "type": "string"
+        },
+          
+        "needZip": {
+          "description": "Zip Code for need",
+          "type": "string"
+        },
+
+        "needTitle": {
+          "description": "Title of need.",
+          "type": "string"
+        },
+
+        "needDetails": {
+          "description": "Description of need.",
+          "type": "string"
+        },
+
+        "needType": {
+          "description": "Primary category assigned to need.",
+          "type": "string"
+        },
+
+        "needAgeRequirements": {
+          "description": "Minimum age requirement for need responder.",
+          "type": "string"
+        },
+
+        "needAllowTeams": {
+            "description": "Minimum age requirement for need responder.",
+            "type": "boolean"
+        },
+
+        "needContact": {
+          "description": "Comma separated list of contact email addresses for need.",
+          "type": "string"
+        },
+
+        "needDate": {
+          "description": "Date need either happens on or expires. If needDateType is 'ongoing' this will be null.",
+          "type": "string"
+        },
+
+        "needDateType": {
+          "description": "Either 'ongoing', 'until', or 'on'",
+          "enum": ["ongoing", "until", "on"]
+        },
+
+        "needVolunteersNeeded": {
+          "description": "Number of responders needed for this need.",
+          "type": "number"
+        },
+        
+        "duration": {
+            "description": "Duration of need in hours.",
+            "type": "string"
+        },  
+        
+        "registrationClosed": {
+            "description": "The date when responses will no longer be accepted.",
+            "type": "string"
+        },  
+        
+        "isPrivate": {
+            "description": "Indicates if the need is private and should not be shown publicly.",
+            "type": "boolean"
+        },  
+    
+        "status": {
+          "description": "Current status of need.",
+          "type": "string"
+        },
+        
+        
+        "impactArea": {
+            "description": "Impact area as defined by the agency.",
+            "type": "string"
+        },
+
+        "dateAdded": {
+          "description": "The time, in ISO 8601 format, at which the record was created.",
+          "type": "string"
+        },
+
+        "dateUpdated": {
+          "description": "The time, in ISO 8601 format, at which the record was updated.",
+          "type": "string"
+        },
+
+        "agencyId": {
+          "description": "The time, in ISO 8601 format, at which the agency was updated.",
+          "type": "string",
+          "pattern": "^[0-9]+$" 
+        },
+
+        "agencyName": {
+          "description": "The time, in ISO 8601 format, at which the agency was updated.",
+          "type": "string"
+        },
+
+        "aemId": {
+            "description": "Unique ID of the Advanced Event attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        }, 
+        
+        "aemTitle": {
+            "description": "Title of the Advanced Event attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },  
+        
+        "initiativeId": {
+            "description": "Unique ID of the Initiative attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },  
+
+        "initiativeTitle": {
+            "description": "Title of the Initiative attached to this item.",
+            "type": "string",
+            "pattern": "^[0-9]+$" 
+        },  
+
+        "needHoursDescription": {
+            "description": "Text description of the need time. e.g. 9am to 5pm",
+            "type": "string"
+        },
+
+        "interests": {
+            "description": "Interests assigned to the need.",
+            "type": "array"
+        },
+        
+
+        "needLink": {
+            "description": "Direct link to the need.",
+            "type": "string"
+        },
+
+        "needLinkCustom": {
+            "description": "Direct link to the need using your custom domain name.",
+            "type": "string"
+        },
+
+        "shifts": {
+            "description": "Array of shifts attached to this need. Each shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "shiftId": {
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "type": "string"
+                    },
+                    "endDate": {
+                        "type": "string"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "capacity": {
+                        "type": "string"
+                    },
+                    "responses": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+                
+            }
+        },
+
+        "qualifications": {
+            "description": "Array of qualifications attached to this need. Each shift item consists of qualificationId, qualificationCategory, AND qualificationTitle ",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "qualificationId": {
+                        "type": "string"
+                    },
+                    "qualificationCategory": {
+                        "type": "string"
+                    },
+                    "qualificationTitle": {
+                        "type": "string"
+                    }
+                }
+                
+            }
+        }
+  
+        
+      },
+      "required": [
+        "id",
+        "needTitle",
+        "needType",
+        "needAllowTeams",
+        "needDateType",
+        "duration",
+        "registrationClosed",
+        "dateAdded",
+        "dateUpdated",
+        "isPrivate",
+        "status",
+        "agencyId",
+        "agencyName",
+        "aemId",
+        "aemTitle",
+        "initiativeId",
+        "initiativeTitle",
+        "needHoursDescription",
+        "interests",
+        "needLink",
+        "needLinkCustom",
+        "shifts",
+        "qualifications"
+      ]
+}

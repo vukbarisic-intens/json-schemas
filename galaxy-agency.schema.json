@@ -1,0 +1,95 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "#agency",
+    "title": "Agency",
+    "description": "Galaxy digital API Agency",
+    "type": "object",
+    "properties": {
+        "id": {
+          "description": "Unique identifier for the agency  record.",
+          "type": "string",
+          "pattern": "^[0-9]+$" 
+        },
+
+        "agencyLink": {
+          "description": "Shortcut URL to go directly to the agency page. Final URL would be https://(siteurl)/agency/(agencyLink)/",
+          "type": "string"
+        },
+
+        "agencyName": {
+          "description": "Name of agency",
+          "type": "string"
+        },
+
+        "agencyAddress": {
+          "description": "Address for agency",
+          "type": "string"
+        },
+
+        "agencyAddress2": {
+          "description": "Continued address for agency",
+          "type": "string"
+        },
+
+        "agencyCity": {
+          "description": "Agency City",
+          "type": "string"
+        },
+
+        "agencyState": {
+          "description": "Agency State",
+          "type": "string"
+        },
+
+        "agencyZip": {
+          "description": "Agency zip code.",
+          "type": "string"
+        },
+
+        "agencyPhone": {
+          "description": "Agency phone number.",
+          "type": "string" 
+        },
+
+        "agencyContact": {
+          "description": "Name of agency contact .",
+          "type": "string"
+        },
+
+        "agencyURL": {
+          "description": "Agency website URL.",
+          "type": "string"
+        },
+
+        "agencyDescription": {
+          "description": "Agency description.",
+          "type": "string"
+          },
+
+        "status": {
+          "description": "Current status agency.",
+          "type": "string"
+        },
+
+        "dateAdded": {
+          "description": "The time, in ISO 8601 format, at which the agency was created.",
+          "type": "string"
+        },
+
+        "dateUpdated": {
+          "description": "The time, in ISO 8601 format, at which the agency was updated.",
+          "type": "string"
+        },
+        "causes" : {
+          "description": "Causes defined by the agency.",
+          "type": "array"
+        }
+
+      },
+      "required": [
+        "id",
+        "agencyName",
+        "dateAdded",
+        "dateUpdated"
+      ]
+    }
