@@ -19,17 +19,17 @@
         
       "referenceId": {
         "description": "Remote unique identifier for the user record.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "firstName": {
         "description": "First name for the user.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "lastName": {
         "description": "Last name for the user.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "middleName": {
@@ -109,17 +109,17 @@
 
       "link": {
         "description": "Link to be used that will auto-log user into the site. Note: must pass 'getLogin' parameter in request to receive.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "expires": {
         "description": "The time, in ISO 8601 format, that this link will expire.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "now": {
         "description": "The current server time in ISO 8601 format.",
-        "type": "string"
+        "type": ["string", "null"]
       },
 
       "duplicate": {

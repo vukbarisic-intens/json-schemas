@@ -19,12 +19,12 @@
         
         "responsePhone": {
             "description": "Title of the record.",
-            "type": "string"
+            "type": ["string", "null"]
           },
   
         "responseAddress": {
             "description": "Description of the record.",
-            "type": "string"
+            "type": ["string", "null"]
         },
 
         "responseNote": {

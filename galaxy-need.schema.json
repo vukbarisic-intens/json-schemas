@@ -13,22 +13,22 @@
 
         "needAddress": {
           "description": "Street address for need.",
-          "type": "string"
+          "type": ["string", "null"]
         },
         
         "needCity": {
-            "description": "City for need.",
-            "type": "string"
-        },
+          "description": "City for need.",
+          "type": ["string", "null"]
+          },
 
         "needState": {
-        "description": "State for need.",
-        "type": "string"
+          "description": "State for need.",
+          "type": ["string", "null"]
         },
           
         "needZip": {
           "description": "Zip Code for need",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "needTitle": {
@@ -38,7 +38,7 @@
 
         "needDetails": {
           "description": "Description of need.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "needType": {
@@ -48,7 +48,7 @@
 
         "needAgeRequirements": {
           "description": "Minimum age requirement for need responder.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "needAllowTeams": {
@@ -58,12 +58,12 @@
 
         "needContact": {
           "description": "Comma separated list of contact email addresses for need.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "needDate": {
           "description": "Date need either happens on or expires. If needDateType is 'ongoing' this will be null.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "needDateType": {
@@ -73,7 +73,15 @@
 
         "needVolunteersNeeded": {
           "description": "Number of responders needed for this need.",
-          "type": "number"
+          "anyOf": [
+            {
+                "type": "string",
+                "pattern": "^[0-9]+$" 
+              }, 
+            {
+                "type": "null"
+            }
+        ]
         },
         
         "duration": {

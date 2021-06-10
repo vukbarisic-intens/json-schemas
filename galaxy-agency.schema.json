@@ -13,7 +13,7 @@
 
         "agencyLink": {
           "description": "Shortcut URL to go directly to the agency page. Final URL would be https://(siteurl)/agency/(agencyLink)/",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyName": {
@@ -23,47 +23,47 @@
 
         "agencyAddress": {
           "description": "Address for agency",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyAddress2": {
           "description": "Continued address for agency",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyCity": {
           "description": "Agency City",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyState": {
           "description": "Agency State",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyZip": {
           "description": "Agency zip code.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyPhone": {
           "description": "Agency phone number.",
-          "type": "string" 
+          "type": ["string", "null"]
         },
 
         "agencyContact": {
           "description": "Name of agency contact .",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyURL": {
           "description": "Agency website URL.",
-          "type": "string"
+          "type": ["string", "null"]
         },
 
         "agencyDescription": {
           "description": "Agency description.",
-          "type": "string"
+          "type": ["string", "null"]
           },
 
         "status": {
@@ -82,7 +82,7 @@
         },
         "causes" : {
           "description": "Causes defined by the agency.",
-          "type": "array"
+          "type": ["string", "null"]
         }
 
       },
