@@ -1,0 +1,904 @@
+swagger: "2.0"
+info:
+  description: "This API provides information about volunteers and their engagement in agencies."
+  version: "2.14.04"
+  title: "Galaxy Digital API"
+host: "api2.galaxydigital.com"
+basePath: "/volunteer"
+tags:
+- name: "user"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#userList"
+- name: "agency"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#agencyList"
+- name: "need"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#needList"
+- name: "response"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#responseList"
+- name: "hour"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#hourList"
+- name: "event"
+  description: ""
+  externalDocs:
+    description: "Find out more"
+    url: "http://api2.galaxydigital.com/volunteer/docs/#eventList"
+
+schemes:
+- "https"
+
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
+
+security:
+  - api_key: []
+
+paths:
+  /agency/list:
+    get:
+      tags:
+      - "agency"
+      summary: "Get a page of agencies"
+      description: "Use this endpoint to obtain a list of all agencies on your domain with a variety of the agencies' data. Agencies must be on your site, and inactive agencies will not be included in the results."
+      operationId: "getAgencyList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 50
+      - name: "since_id"
+        type: "integer"
+        description: "This will return agencies with a unique id that is greater than the id specified."
+        in: "query"
+        required: false
+      - name: "since_date"
+        type: "string"
+        format: "yyyy-mm-dd"
+        description: "This will return agencies that have been added to the system since the date specified."
+        in: "query"
+        required: false
+      - name: "search"
+        type: "string"
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/AgencyListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+  
+  
+  /agency/get:
+    get:
+      tags:
+      - "agency"
+      summary: "Get a single agency by id"
+      description: "Use this endpoint to obtain information about a single agency on your site. The agency cannot be inactive, and they must also be on your site. Submit the `id` parameter to complete the get, where the id is the agency ID on your site."
+      operationId: "getAgencyById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+        pattern: "^[0-9]+$"
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/AgencyByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /response/list:
+    get:
+      tags:
+      - "response"
+      summary: "Get a page of responses"
+      description: "Use this endpoint to obtain a list of all agencies on your domain with a variety of the agencies' data. Agencies must be on your site, and inactive agencies will not be included in the results."
+      operationId: "getResponseList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+        
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 50
+        
+      - name: "agencyId"
+        type: "integer"
+        description: "This will return responses to needs for the specific agency."
+        in: "query"
+        required: false
+        
+      - name: "needId"
+        type: "integer"
+        description: "This will return responses to needs for the specific agency."
+        in: "query"
+        required: false
+        
+      - name: "userId"
+        type: "integer"
+        description: "This will return responses to needs for the specific agency."
+        in: "query"
+        required: false
+        
+      - name: "companyId"
+        type: "integer"
+        description: "This will return responses to needs for the specific agency."
+        in: "query"
+        required: false
+        
+      - name: "aemId"
+        type: "integer"
+        description: "This will return agencies that have been added to the system since the date specified."
+        in: "query"
+        required: false
+        
+      - name: "initiativeId  "
+        type: "integer"
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+      
+      - name: "shift"
+        type: "array"
+        items:
+            type: string
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+        
+      - name: "sinceId"
+        type: "integer"
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+        
+      - name: "sinceDate"
+        type: "string"
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+      
+      - name: "status"
+        type: "array"
+        items:
+            type: string
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/ResponseListResponse"
+        "403":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+  
+  
+  /response/get:
+    get:
+      tags:
+      - "response"
+      summary: "Get a single response by id"
+      description: "Use this endpoint to obtain information about a single response on your site. Unlike other endpoints, the response does not have to have a specific status to be shown. Submit the `id` parameter to complete the get, where the id is the response ID on your site."
+      operationId: "getResponseById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+        pattern: "^[0-9]+$"
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/ResponseByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  /response/add:
+    get:
+      tags:
+      - "response"
+      summary: "Get a single response by id"
+      description: "You can create a response between a user on your site and a need on your site using this post. In addition to being on your site, the user must have a status of active, pending, imported, or inactive. In addition to being on your site, the need must be active and non expired. A response will be recorded to the user and need you specify, that need’s agency will be recorded, the current time will be added as the date added and updated, and status will be active."
+      operationId: "addNewResponse"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "needId"
+        type: "integer"
+        description: "ID of the need from this response."
+        in: "query"
+        required: false
+      
+      - name: "userId"
+        type: "integer"
+        description: "ID of the user from this response."
+        in: "query"
+        required: false
+      
+      - name: "responsePhone"
+        type: "string"
+        description: "Phone number of the responder."
+        in: "query"
+        required: false
+      
+      - name: "responseAddress"
+        type: "string"
+        description: "Address of the responder."
+        in: "query"
+        required: false
+      
+      - name: "responseNote"
+        type: "string"
+        description: "Comment to add to the response."
+        in: "query"
+        required: false
+      
+      
+      responses:
+        "200":
+          description: "Successfully added a new record"
+          schema:
+            $ref: "#/definitions/ResponseByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  
+  /event/list:
+    get:
+      tags:
+      - "event"
+      summary: "Get a page of agencies"
+      description: "Use this endpoint to obtain a full list of events on your domain with a variety of data about the event. The events must be on your site, active, and start in the future in order to appear in results."
+      operationId: "getEventList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 50
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/EventListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+  
+  
+  /event/get:
+    get:
+      tags:
+      - "event"
+      summary: "Get a single record by id"
+      description: "Use this endpoint to obtain information about a single event on your site. The event must be active and it must start in the future. Submit the `id` parameter to complete your get, where the id is the event id on your site."
+      operationId: "getEventById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/EventByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+
+          
+definitions:
+  BaseResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+        example: "ok"
+    required:
+    - "message"
+    
+  BaseListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        rows:
+          type: "integer"
+          description: "Total number of results"
+          example: 251
+        offset:
+          type: "integer"
+          description: "Index of the page for returned data, starting from zero"
+          example: 2
+        limit:
+          type: "integer"
+          description: "Maximum number of records to return on page"
+          example: 10
+          
+  UserListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Agency"
+            
+  AgencyListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Agency"
+  
+  AgencyByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Agency"
+          
+  ResponseByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Response"
+          
+  ResponseListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Response"
+            
+  EventListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Event"
+  
+  EventByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Event"
+  
+  NoApiKeyResponse:
+    type: "object"
+    properties:
+      status:
+        type: "boolean"
+        example: false
+      error: 
+        type: "string"
+        example: "Invalid API Key."
+        
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Unique identifier for the user  record."
+        pattern: "^[0-9]+$"
+        example : "123456"
+      status:
+        type: "string"
+        description: "Current status of the user."
+        example : "active"
+      referenceId:
+        type: "string"
+        description: "Remote unique identifier for the user record."
+        example : null
+        x-nullable: true
+      firstName:
+        type: "string"
+        description: "First name for the user."
+        example : "Paula"
+        x-nullable: true
+      lastName:
+        type: "string"
+        description: "Last name for the user."
+        example : "Jones"
+        x-nullable: true
+      middleName:
+        type: "string"
+        description: "Middle name for the user."
+        example : "Kelly"
+        x-nullable: true
+      email:
+        type: "string"
+        description: "Valid email address for the user."
+        example : "pjones@example.com"
+      mobile:
+        type: "string"
+        description: "Mobile phone number for the user."
+        example : "615-555-1212"
+      phone:
+        type: "string"
+        description: "Phone number for the user."
+        example : "978-555-1212"
+      company:
+        type: "string"
+        description: "Company as defined by the user."
+        example : ""
+      gender:
+        type: "string"
+        description: "Gender of the user."
+        example : "Female"
+      birthdate:
+        type: "string"
+        description: "Birthdate as defined by the user."
+        example : ""
+      address:
+        type: "string"
+        description: "Street address for the user."
+        example : "1212 Walking Ln."
+      address2:
+        type: "string"
+        description: "Secondary address for the user. e.g. Appt 2"
+        example : "Appt 2b"
+      city:
+        type: "string"
+        description: "City for the user"
+        example : "Schenectady"
+      state:
+        type: "string"
+        description: "Two letter state abbreviation. e.g. NY."
+        example : "NY"
+      postal:
+        type: "string"
+        description: "Zip/Postal code for the user"
+        example : "12345"
+      dateAdded:
+        type: "string"
+        description: "The time, in ISO 8601 format, at which the user was created."
+        example : "2010-11-29T15:44:25-05:00"
+      dateUpdated:
+        type: "string"
+        description: "The time, in ISO 8601 format, at which the user was updated."
+        example : "2013-02-09T11:11:25-05:00"
+      dateLastLogin:
+        type: "string"
+        description: "The time, in ISO 8601 format, at which the user last logged in."
+      link:
+        type: "string"
+        description: "Link to be used that will auto-log user into the site. Note: must pass 'getLogin' parameter in request to receive."
+        x-nullable: true
+      expires:
+        type: "string"
+        description: "The time, in ISO 8601 format, that this link will expire."
+        x-nullable: true
+      now:
+        type: "string"
+        description: "The current server time in ISO 8601 format."
+        x-nullable: true
+      
+    required:
+    - "id"
+    
+  Agency:
+    type: "object"
+   
+    properties:
+      id:
+        type: "string"
+        description: "Unique identifier for the agency  record."
+        pattern: "^[0-9]+$" 
+        example : "9658"
+      agencyLink:
+        type: "string"
+        description: "Shortcut URL to go directly to the agency page. Final URL would be https://(siteurl)/agency/(agencyLink)/"
+        example : "agencyone"
+        x-nullable: true
+      agencyName:
+        type: "string"
+        description: "Name of Agency"
+        example : "Agency One"
+      agencyAddress:
+        type: "string"
+        description: "Address for Agency"
+        example : "1212 S. Pine Street"
+        x-nullable: true
+      agencyAddress2:
+        type: "string"
+        description: "Continued address for agency"
+        example : ""
+        x-nullable: true
+      agencyCity:
+        type: "string"
+        description: "Agency City"
+        example : "Danvers"
+        x-nullable: true
+      agencyState:
+        type: "string"
+        description: "Agency State"
+        example : "MA"
+        x-nullable: true
+      agencyZip:
+        type: "string"
+        description: "Agency zip code."
+        example : ".01923"
+        x-nullable: true
+      agencyPhone:
+        type: "string"
+        description: "Agency phone number."
+        example : "781-555-1212"
+        x-nullable: true
+      agencyContact:
+        type: "string"
+        description: "Name of agency contact."
+        example : "Joyce Smith"
+        x-nullable: true
+      agencyURL:
+        type: "string"
+        description: "Agency website URL."
+        example : "http://www.example.org/"
+        x-nullable: true
+      agencyDescription:
+        type: "string"
+        description: "Agency description."
+        example : ""
+        x-nullable: true
+      status:
+        type: "string"
+        description: "Current status agency."
+        example : "active"
+        x-nullable: true
+      dateAdded:
+        type: "string"
+        description: "The time, in ISO 8601 format, at which the agency was created."
+        example : "2010-11-29T15:44:25-05:00"
+      dateUpdated:
+        type: "string"
+        description: "The time, in ISO 8601 format, at which the agency was updated."
+        example : "2013-02-09T11:11:25-05:00"
+      causes:
+        type: "array"
+        description: "Causes defined by the agency."
+        items: 
+          type: "string"
+      
+    required:
+    - "id"
+    - "agencyName"
+    
+  Event:
+    type: "object"
+   
+    properties:
+      eventId:
+        type: "string"
+        description: "Unique identifier for the record."
+        pattern: "^[0-9]+$" 
+        example : "16228"
+      eventStatus:
+        type: "string"
+        description: "Current status of the record."
+        example : "active"
+      eventTitle:
+        type: "string"
+        description: "Title of the record."
+        example : "Pet Therapy training class Fall 2016"
+      eventDescription:
+        type: "string"
+        description: "Description of the record."
+        example : "We have 2 Orientation/Training classes one March 2, 2016 one September 7, 2016."
+      eventWebsite:
+        type: "string"
+        description: "Website listed for the event."
+        example : ""
+      eventHost:
+        type: "string"
+        description: "Host listed for the event."
+        example : ""
+      eventContact:
+        type: "string"
+        description: "Address listed for the event."
+        example : "www.therapypetpals.org"
+      eventVenue:
+        type: "string"
+        description: "Venue listed for the event."
+        example : ""
+      eventAddress:
+        type: "string"
+        description: "Address listed for the event."
+        example : "27434 Robinson Rd."
+      eventAddress2:
+        type: "string"
+        description: "Address listed for the event."
+        example : ""
+      eventCity:
+        type: "string"
+        description: "City listed for the event."
+        example : "Spring"
+      eventState:
+        type: "string"
+        description: "State listed for the event."
+        example : "TX"
+      eventZipCode:
+        type: "string"
+        description: "Zip code listed for the event."
+        example : "77386"
+      eventCounty:
+        type: "string"
+        description: "County listed for the event."
+        example : ""
+      eventEmail:
+        type: "string"
+        description: "Email listed for the event."
+        example : "mlucas99@sbcglobal.net"
+      eventStart:
+        type: "string"
+        description: "The date/time, in ISO 8601 format, that the event starts."
+        example : "2016-09-07T18:45:00-05:00"
+      eventEnd:
+        type: "string"
+        description: "The date/time, in ISO 8601 format, that the event ends."
+        example : "2016-09-07T20:30:00-05:00"
+      dateAdded:
+        type: "string"
+        description: "The date/time, in ISO 8601 format, that the event was added."
+        example : "2015-02-13T12:52:37-06:00"
+      dateUpdated:
+        type: "string"
+        description: "The date/time, in ISO 8601 format, that the event was last updated."
+        example : "2016-01-12T16:10:43-06:00"
+      agencyId:
+        type: "string"
+        description: "The ID for the agency that created the event."
+        pattern: "^[0-9]+$" 
+        example : "17490"
+      agencyName:
+        type: "string"
+        description: "The name of the agency that created the event."
+        example : "Therapy Pet Pals of Texas, Inc."
+      agencyStatus:
+        type: "string"
+        description: "The current status of the agency that created the event."
+        example : "active"
+      
+    required:
+    - "eventId"
+    
+  Response:
+    type: "object"
+   
+    properties:
+      responseId:
+        type: "number"
+        description: "Unique identifier for the user record."
+        pattern: "^[0-9]+$" 
+        example : "255002"
+      responseStatus:
+        type: "string"
+        description: "Current status of the record."
+        example : "active"
+      responsePhone:
+        type: "string"
+        description: "Current status of the record."
+        x-nullable: true
+        example : null      
+      responseAddress:
+        type: "string"
+        x-nullable: true
+        description: "Current status of the record."
+        example : ""
+      responseNote:
+        type: "string"
+        description: "Current status of the record."
+        example : ""
+      waiverAgree:
+        type: "string"
+        description: "Did user agree to waiver"
+        example : "No"
+      agencyId:
+        type: "string"
+        description: "Unique identifier"
+        pattern: "^[0-9]+$" 
+        example : "33316"
+      agencyName:
+        type: "string"
+        description: "Agency name"
+        example : "Meow-ntain Cat Sanctuary Agency"
+      needId:
+        type: "string"
+        description: "Unique identifier"
+        pattern: "^[0-9]+$" 
+        example : "93929"
+      needTitle:
+        type: "string"
+        description: "Need title"
+        example : "Purrfessional Administrative Assistant"
+      needDate:
+        type: "string"
+        description: "Need date"
+        example : "2016-02-06"
+      userId:
+        type: "string"
+        description: "Unique identifier"
+        pattern: "^[0-9]+$" 
+        example : "613930"
+      firstName:
+        type: "string"
+        description: "Responder first name"
+        example : "Bernadette"
+      lastName:
+        type: "string"
+        description: "Responder last name"
+        example : "Grasty-Colont"
+      email:
+        type: "string"
+        description: "Unique ID of the Advanced Event attached to this item."
+        example : "bernadette@example.com"
+      aemId:
+        type: "string"
+        description: "Title of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      aemTitle:
+        type: "string"
+        description: "Title of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      initiativeId:
+        type: "string"
+        description: "Unique ID of the Initiative attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      initiativeTitle:
+        type: "string"
+        description: "Title of the Initiative attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      companyId:
+        type: "string"
+        description: "ID of the Company attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      companyName:
+        type: "string"
+        description: "Name of the Company attached to this item."
+        pattern: "^[0-9]+$" 
+        example : ""
+      shift:
+        type: "array"
+        description: "The shift attached to this response. Shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status"
+        items: 
+          type: "object"
+          properties:
+            shiftId:
+              type: "string"
+            startDate:
+              type: "string"
+            endDate:
+              type: "string"
+            duration:
+              type: "string"
+            capacity:
+              type: "string"
+            responses:
+              type: "string"
+            status:
+              type: "string"
+      responseAdded:
+        type: "string"
+        description: "The time, in ISO 8601 format, that this link will expire."
+        example: "2015-03-04T09:31:20-06:00"
+      responseUpdated:
+        type: "string"
+        description: "The time, in ISO 8601 format, that this link will expire."
+        example: "2015-03-04T09:31:20-06:00"
+      
+    required:
+    - "responseId"
+    - "responseStatus"
+    
+    
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Galaxy Digital"
+  url: "https://www.galaxydigital.com/"
