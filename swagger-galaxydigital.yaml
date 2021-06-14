@@ -337,7 +337,7 @@ paths:
         description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
         in: "query"
         required: false
-      
+           
       responses:
         "200":
           description: "successfully retrieved response containing a page of records"
@@ -376,7 +376,84 @@ paths:
           description: "Invalid API Key."
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
-            
+  
+  /need/list:
+    get:
+      tags:
+      - "need"
+      produces:
+      - "application/json"
+      summary: "Get a page of needs"
+      description: "Use this endpoint to obtain a list of all needs on your domain with a variety of the needs’ data. Needs must be on your site, active, and non expired."
+      operationId: "getNeedList"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 50
+      - name: "since_id"
+        type: "integer"
+        description: "This will return agencies with a unique id that is greater than the id specified."
+        in: "query"
+        required: false
+      - name: "showExpired"
+        type: "boolean"
+        description: "This will allow expired needs to be part of the result set."
+        in: "query"
+        required: false
+      - name: "since_date"
+        type: "string"
+        format: "yyyy-mm-dd"
+        description: "This will return agencies that have been added to the system since the date specified."
+        in: "query"
+        required: false
+      - name: "search"
+        type: "string"
+        description: "This will limit results based on search string passed. This will search against the need title, description, and any tags associated with the agency."
+        in: "query"
+        required: false
+      - name: "aemId"
+        type: "string"
+        description: "This will return needs that have been part of a specific Advanced Event."
+        in: "query"
+        required: false
+      - name: "initiativeId"
+        type: "string"
+        description: "This will return needs that have been part of a specific Initative."
+        in: "query"
+        required: false
+      - name: "agency"
+        type: "string"
+        description: "Unique agency identifier. This will return needs that have been added to the system by a specific agency."
+        in: "query"
+        required: false
+      - name: "type"
+        type: "string"
+        description: "This will return needs that have been categorized with the category specified."
+        enum: [volunteer, advocate, inkind, employment]
+        in: "query"
+        required: false
+      - name: "orderBy"
+        type: "string"
+        description: "This will define the order in which the needs are returned. Options are: 'newest', 'oldest', 'soonest', and 'alpha'. Note: soonest will not return 'Ongoing' needs."
+        enum: [newest, oldest, soonest, alpha]
+        in: "query"
+        required: false
+      
+    
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/NeedListResponse"
+  
   /response/list:
     get:
       tags:
@@ -846,6 +923,16 @@ definitions:
       properties:
         data:
           $ref: "#/definitions/Agency"
+          
+  NeedListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Need"
           
   ResponseByIdResponse:
     allOf:
