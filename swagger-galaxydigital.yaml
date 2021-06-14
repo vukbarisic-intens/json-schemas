@@ -1088,6 +1088,196 @@ definitions:
     - "id"
     - "agencyName"
     
+  Need:
+    type: "object"
+    
+    properties:
+      id:
+        type: "string"
+        description: "Unique identifier for the need record."
+        pattern: "^[0-9]+$" 
+        example : "3"
+      needAddress:
+        description: "Street address for need."
+        type: "string"
+        x-nullable: true
+      needCity:
+        description: "City for need."
+        type: "string"
+        x-nullable: true
+      needState:
+        description: "State for need."
+        type: "string"
+        x-nullable: true
+      needZip:
+        description: "Zip Code for need"
+        type: "string"
+        x-nullable: true
+        example: "01923"
+      needTitle:
+        description: "Title of need."
+        type: "string"
+        example: "What is a need?"
+      needDetails:
+        description: "Description of need."
+        type: "string"
+        example: "This is an example need."
+      needType:
+        description: "Primary category assigned to need."
+        type: "string"
+        example: "volunteer"
+      needAgeRequirements:
+        description: "Minimum age requirement for need responder."
+        type: "string"
+        x-nullable: true
+        example: "18"
+      needAllowTeams:
+        description: "Indicates if a need is accepting team signups."
+        type: "boolean"
+        example: false
+      needContact:
+        description: "Comma separated list of contact email addresses for need."
+        type: "string"
+        x-nullable: true
+        example: "jack@example.com,mary@example.com"
+      needDate:
+        description: "Date need either happens on or expires. If needDateType is 'ongoing' this will be null."
+        type: "string"
+        pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$|^$"
+        x-nullable: true
+        example: "2013-06-15"
+      needDateType:
+        description: "Either 'ongoing', 'until', or 'on'"
+        type: "string"
+        enum: [ongoing, until, on]
+        example: "on"
+      needVolunteersNeeded:
+        description: "Number of responders needed for this need."
+        type: "string"
+        pattern: "^[0-9]+$"
+        x-nullable: true
+        example: null
+      duration:
+        description: "Duration of need in hours."
+        type: "string"
+      registrationClosed:
+        description: "The date when responses will no longer be accepted."
+        type: "string"
+      isPrivate:
+        description: "Indicates if the need is private and should not be shown publicly."
+        type: "boolean"
+      status:
+        description: "Current status of need."
+        type: "string"
+        example: "active"
+      impactArea:
+        description: "Impact area as defined by the agency."
+        type: "string"
+      dateAdded:
+        description: "The time, in ISO 8601 format, at which the record was created."
+        type: "string"
+        example: "2010-11-29T15:44:25-05:00"
+      dateUpdated :
+        description: "The time, in ISO 8601 format, at which the record was updated."
+        type: "string"
+        example: "2013-02-09T11:11:25-05:00"
+      agencyId :
+        description: "Unique ID for agency that created need."
+        type: "string"
+        pattern: "^[0-9]+$"
+        example: "521456"
+      agencyName :
+        description: "Name of agency that created need."
+        type: "string"
+        example: "All Persons Agency"
+      aemId :
+        description: "Unique ID of the Advanced Event attached to this item."
+        type: "string"
+        pattern: "^[0-9]+$"
+      aemTitle :
+        description: "Title of the Advanced Event attached to this item."
+        type: "string"
+        pattern: "^[0-9]+$"
+      initiativeId :
+        description: "Unique ID of the Initiative attached to this item."
+        type: "string"
+        pattern: "^[0-9]+$"
+      initiativeTitle :
+        description: "Title of the Initiative attached to this item."
+        type: "string"
+        pattern: "^[0-9]+$"
+      needHoursDescription :
+        description: "Text description of the need time. e.g. 9am to 5pm"
+        type: "string"
+        example: "9am to 5pm"
+      interests:
+        description: "Interests assigned to the need."
+        type: "array"
+        items:
+          type: "string"
+      needLink:
+        description: "Direct link to the need."
+        type: "string"
+      needLinkCustom:
+        description: "Direct link to the need using your custom domain name."
+        type: "string"
+      shifts:
+        description: "Array of shifts attached to this need. Each shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status"
+        type: "array"
+        items:
+          $ref: "#/definitions/Shift"
+      qualifications:
+        description: "Array of qualifications attached to this need. Each shift item consists of qualificationId, qualificationCategory, AND qualificationTitle"
+        type: "array"
+        items:
+          $ref: "#/definitions/Qualification"
+    
+    required:
+      - "id"
+      - "needTitle"
+      - "needDetails"
+      - "needType"
+      - "needAgeRequirements"
+      - "needVolunteersNeeded"
+      - "needZip"
+      - "needDate"
+      - "needDateType"
+      - "dateAdded"
+      - "dateUpdated"
+      - "status"
+      - "agencyId"
+      - "agencyName"
+          
+  Qualification:
+    type: "object"
+    
+    properties:
+      qualificationId:
+        type: "string"
+      qualificationCategory:
+        type: "string"
+      qualificationTitle:
+        type: "string"
+          
+  Shift:
+    type: "object"
+    
+    properties:
+      shiftId:
+        type: "string"
+      startDate:
+        type: "string"
+      endDate:
+        type: "string"
+      duration:
+        type: "string"
+      capacity:
+        type: "string"
+      responses:
+        type: "string"
+      status:
+        type: "string"
+
   Event:
     type: "object"
    
