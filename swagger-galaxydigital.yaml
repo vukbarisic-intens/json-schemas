@@ -50,6 +50,256 @@ security:
   - api_key: []
 
 paths:
+  /user/list:
+    get:
+      tags:
+      - "user"
+      summary: "Get a page of users"
+      description: "Use this endpoint to obtain a list of all users on your domain with a variety of the users' data. Users who are active, pending, imported, or inactive will be included."
+      operationId: "getUserList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 50
+      - name: "where"
+        type: "array"
+        items:
+            type: string
+        description: "This will filter results where a specific item is equal to the value passed. e.g. where[firstName]=Jim"
+        in: "query"
+        required: false
+      - name: "like"
+        type: "array"
+        items:
+            type: string
+        description: "This will filter results where a specific item is contains the value passed. e.g. like[lastName]=oe, which will pick up names like 'Doe' and 'Hoehn'"
+        in: "query"
+        required: false
+      - name: "status"
+        type: "string"
+        description: "This will filter results based on the user's current status. You may use 'active', 'inactive', 'pending', or 'imported'"
+        in: "query"
+        required: false
+      - name: "since_id"
+        type: "integer"
+        description: "This will return agencies with a unique id that is greater than the id specified."
+        in: "query"
+        required: false
+      - name: "since_date"
+        type: "string"
+        format: "yyyy-mm-dd"
+        description: "This will return agencies that have been added to the system since the date specified."
+        in: "query"
+        required: false
+      - name: "return"
+        type: "array"
+        items:
+            type: string
+        description: "Request additional user data as part of the result set. You may use 'extras', 'tags', 'interests', 'stats', 'qualifications', 'registration', 'skills', and/or 'favoriteAgencies'. e.g. return[]='extras' return[]='tags'"
+        in: "query"
+        required: false
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/UserListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+  
+  
+  /user/get:
+    get:
+      tags:
+      - "user"
+      summary: "Get a single user by id"
+      description: "Use this endpoint to obtain information about a single user on your site. The user must be a active, pending, imported, or inactive, and they must also be on your site. Submit the `id` parameter to complete the get, where the id is the user ID on your site."
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: false
+      - name: "idType"
+        type: "string"
+        description: "Type of unique identifier you will be using to request the user record. You may use 'id', 'email', or 'referenceId'. The default is 'id', which is the GetConnected user ID.'"
+        in: "query"
+        required: false
+      - name: "getLogin"
+        type: "boolean"
+        description: "Request to create and return one-click login for this user."
+        in: "query"
+        required: false
+      - name: "return"
+        type: "array"
+        items:
+            type: string
+        description: "Request additional user data as part of the result set. You may use 'extras', 'tags', 'interests', 'stats', 'qualifications', 'registration', 'skills', and/or 'favoriteAgencies'. e.g. return[]='extras' return[]='tags'"
+        in: "query"
+        required: false
+
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/UserByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /user/add:
+    post:
+      tags:
+      - "user"
+      summary: "Add a single user by id"
+      description: "You can add a user to your site with this POST. The user will have a status of 'pending,' a source of 'API Insert,' and a date added and updated equal to the current date and time. The system will check to make sure that the email used is not already on your site."
+      operationId: "addUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be added."
+        required: true
+        schema:
+          $ref: "#/definitions/AddNewUserBody"
+
+      responses:
+        "200":
+          description: "successfully added a new record"
+          schema:
+            $ref: "#/definitions/UserByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /user/update:
+    post:
+      tags:
+      - "user"
+      summary: "Update a single user"
+      description: "You can update a user's data with this POST. Supply as many changes as you like, and they will all replace current values. The user must be on your site and have a status of active, pending, imported, or inactive."
+      operationId: "updateUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUserBody"
+
+      responses:
+        "200":
+          description: "successfully updated a record"
+          schema:
+            $ref: "#/definitions/UserByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+    
+  /user/onclick:
+    get:
+      tags:
+      - "user"
+      summary: "hyperlink for login"
+      description: "This endpoint produce a hyperlink that the user can follow to log into your site. The user must be on your site and have a status of active. The link will be valid for 15 minutes."
+      operationId: "oneClick"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: false
+      responses:
+        "200":
+          description: "Successfull one click login."
+          schema:
+            type: object
+            properties:
+              link:
+                type: string
+                description: "Link to be used that will auto-log user into the site."
+                example: "http://www.example.com/users/oneclick/badb6c834899c356ee998a5231e578a5/"
+              expires:
+                type: string
+                description: "The time, in ISO 8601 format, at which the link will expire."
+                example: "2014-01-21T18:08:33-06:00"
+              now:
+                type: string
+                description: "Current time, in ISO 8601 format, for when the request was made."
+                example: "2014-01-21T18:23:33-06:00"
+              
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+  /user/authenticate:
+    post:
+      tags:
+      - "user"
+      summary: "Authenticate User"
+      description: "This endpoint can be used to log a user into the system by passing their email and password as part of the post. The email must match a user on your site, and the user must be active."
+      operationId: "authenticateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User data that needs to be authenticated"
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              description: "Email address for record you wish to have returned."
+            password:
+              type: string
+              description: "Password for record you wish to have returned."
+            getLogin:
+              type: boolean
+              description: "Request to create and return one-click login for this user."
+            return:
+              type: array
+              items: 
+                type: "string"
+
+      responses:
+        "200":
+          description: "Successfull user authenticate"
+          schema:
+            $ref: "#/definitions/UserByIdResponse"
+              
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+  
+            
   /agency/list:
     get:
       tags:
@@ -376,6 +626,174 @@ definitions:
     required:
     - "message"
     
+  AddNewUserBody:
+    type: "object"
+    properties:
+      referenceId:
+        type: "string"
+        description: "Remote unique identifier for the user record."
+      firstName:
+        type: "string"
+        description: "First name for the user."
+      lastName:
+        type: "string"
+        description: "Last name for the user."
+      middleName:
+        type: "string"
+        description: "Middle name for the user."
+      email:
+        type: "string"
+        description: "Valid email address for the user."
+      address:
+        type: "string"
+        description: "Street address for the user."
+      address2:
+        type: "string"
+        description: "Secondary address for the user. e.g. Appt 2"
+      city:
+        type: "string"
+        description: "City for the user"
+      state:
+        type: "string"
+        description: "Two letter state abbreviation. e.g. NY."
+      postal:
+        type: "string"
+        description: "Zip/Postal code for the user"
+      password:
+        type: "string"
+        description: "Desired password for the user."
+      status:
+        type: "string"
+        enum: [active, pending, inactive, imported]
+        description: "Set current status of user. (active, pending, inactive, or imported)"
+      tagsAdd:
+        type: "string"
+        description: "Comma separated list of words. (fish,cake,dishes)"
+      extraAdd:
+        type: "array"
+        items: 
+          type: "string"
+        description: "An array of supplemental information you wish to store with the user record. e.g. extraAdd['pet'] = 'fish', extraAdd['carType'] = 'van'"
+        x-nullable: true
+      getLogin:
+        type: "boolean"
+        description: "Request to create and return one-click login for this user."
+        x-nullable: true
+
+      return:
+        type: "array"
+        items: 
+          type: "string"
+        description: "Request additional user data as part of the result set. You may use 'extras', 'tags', 'interests', 'stats', 'qualifications', 'registration', 'skills', and/or 'favoriteAgencies'. e.g. return[]='extras' return[]='tags'"
+        x-nullable: true
+      welcomeEmail:
+        type: "boolean"
+        description: "If set to true a 'welcome' email message will be sent to a new user."
+        x-nullable: true
+
+      
+    required:
+    - "firstName"
+    - "lastName"
+    - "email"
+    - "password"
+    
+  
+  UpdateUserBody:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Remote unique identifier for the user record."
+      referenceId:
+        type: "string"
+        description: "Remote unique identifier for the user record."
+      firstName:
+        type: "string"
+        description: "First name for the user."
+        x-nullable: true
+      lastName:
+        type: "string"
+        description: "Last name for the user."
+        x-nullable: true
+      middleName:
+        type: "string"
+        description: "Middle name for the user."
+      email:
+        type: "string"
+        description: "Valid email address for the user."
+      address:
+        type: "string"
+        description: "Street address for the user."
+        x-nullable: true
+      address2:
+        type: "string"
+        description: "Secondary address for the user. e.g. Appt 2"
+        x-nullable: true
+      city:
+        type: "string"
+        description: "City for the user"
+        x-nullable: true
+      state:
+        type: "string"
+        description: "Two letter state abbreviation. e.g. NY."
+        x-nullable: true
+      postal:
+        type: "string"
+        description: "Zip/Postal code for the user"
+        x-nullable: true
+      password:
+        type: "string"
+        description: "Desired password for the user."
+        x-nullable: true
+      status:
+        type: "string"
+        enum: [active, pending, inactive, imported]
+        description: "Set current status of user. (active, pending, inactive, or imported)"
+        x-nullable: true
+      tagsAdd:
+        type: "string"
+        description: "Comma separated list of words. (fish,cake,dishes)"
+        x-nullable: true
+      tagsRemove:
+        type: "string"
+        description: "Comma separated list of tags to remove from user."
+        x-nullable: true
+      extraAdd:
+        type: "array"
+        items: 
+          type: "string"
+        description: "An array of supplemental information you wish to store with the user record. e.g. extraAdd['pet'] = 'fish', extraAdd['carType'] = 'van'"
+        x-nullable: true
+      extraUpdate:
+        type: "array"
+        items: 
+          type: "string"
+        description: "An array of supplemental information you wish to update on the user record. e.g. extraUpdate['pet'] = 'dog', extraUpdate['computer'] = 'laptop'. Note, if the record does not exist, one will be created."
+        x-nullable: true
+      extraRemove:
+        type: "array"
+        items: 
+          type: "string"
+        description: "An array of supplemental information you wish to remove from the user record. e.g. extraRemove[] = 'pet', extraRemove[] = 'computer'"
+        x-nullable: true
+      getLogin:
+        type: "boolean"
+        description: "Request to create and return one-click login for this user."
+        x-nullable: true
+      return:
+        type: "array"
+        items: 
+          type: "string"
+        description: "Request additional user data as part of the result set. You may use 'extras', 'tags', 'interests', 'stats', 'qualifications', 'registration', 'skills', and/or 'favoriteAgencies'. e.g. return[]='extras' return[]='tags'"
+        x-nullable: true
+      
+    required:
+    - "firstName"
+    - "lastName"
+    - "email"
+    - "password"
+
   BaseListResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -402,7 +820,14 @@ definitions:
         data:
           type: "array"
           items:
-            $ref: "#/definitions/Agency"
+            $ref: "#/definitions/User"
+  UserByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/User"
             
   AgencyListResponse:
     allOf:
@@ -567,6 +992,12 @@ definitions:
         type: "string"
         description: "The current server time in ISO 8601 format."
         x-nullable: true
+      favoriteAgencies:
+        type: "array"
+        description: "Causes defined by the agency."
+        items: 
+          $ref: "#/definitions/Agency"
+        
       
     required:
     - "id"
