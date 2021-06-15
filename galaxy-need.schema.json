@@ -52,7 +52,7 @@
         },
 
         "needAllowTeams": {
-            "description": "Minimum age requirement for need responder.",
+            "description": "Indicates if a need is accepting team signups.",
             "type": "boolean"
         },
 
@@ -121,13 +121,13 @@
         },
 
         "agencyId": {
-          "description": "The time, in ISO 8601 format, at which the agency was updated.",
+          "description": "Unique ID for agency that created need.",
           "type": "string",
           "pattern": "^[0-9]+$" 
         },
 
         "agencyName": {
-          "description": "The time, in ISO 8601 format, at which the agency was updated.",
+          "description": "Name of agency that created need.",
           "type": "string"
         },
 
@@ -209,7 +209,7 @@
         },
 
         "qualifications": {
-            "description": "Array of qualifications attached to this need. Each shift item consists of qualificationId, qualificationCategory, AND qualificationTitle ",
+            "description": "Array of qualifications attached to this need. Each shift item consists of qualificationId, qualificationCategory, AND qualificationTitle",
             "type": "array",
             "items": {
                 "type": "object",
@@ -233,26 +233,17 @@
       "required": [
         "id",
         "needTitle",
+        "needDetails",
         "needType",
-        "needAllowTeams",
+        "needAgeRequirements",
+        "needVolunteersNeeded",
+        "needZip",
+        "needDate",
         "needDateType",
-        "duration",
-        "registrationClosed",
         "dateAdded",
         "dateUpdated",
-        "isPrivate",
         "status",
         "agencyId",
-        "agencyName",
-        "aemId",
-        "aemTitle",
-        "initiativeId",
-        "initiativeTitle",
-        "needHoursDescription",
-        "interests",
-        "needLink",
-        "needLinkCustom",
-        "shifts",
-        "qualifications"
+        "agencyName"
       ]
 }
