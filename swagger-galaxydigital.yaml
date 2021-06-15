@@ -588,8 +588,6 @@ paths:
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
   
-  
-  
   /response/get:
     get:
       tags:
@@ -616,6 +614,7 @@ paths:
           description: "Invalid API Key."
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
+  
   /response/add:
     get:
       tags:
@@ -667,6 +666,108 @@ paths:
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
             
+  /hour/list:
+    get:
+      tags:
+      - "hour"
+      summary: "Get a page of hour records"
+      description: "Use this endpoint to obtain a list of all hours on your domain with a variety of data about the hours as well as data about the user, agency, and need. The hours’ user must be active, the hours’ need must not be inactive, the hours’ agency must not be inactive, the hours must be active, and the hours must be on your site."
+      operationId: "getHourList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 5
+      - name: "agencyId"
+        type: "integer"
+        description: "This will return hours applied to needs for the specific agency."
+        in: "query"
+        required: false
+      - name: "needId"
+        type: "integer"
+        description: "This will return hours applied to a specific need."
+        in: "query"
+        required: false
+      - name: "userId"
+        type: "integer"
+        description: "This will return hours submitted by a specific user."
+        in: "query"
+        required: false
+      - name: "aemId"
+        type: "integer"
+        description: "This will return hours part of a specific Advanced Event."
+        in: "query"
+        required: false
+      - name: "sinceId"
+        type: "integer"
+        description: "This will return hours with an id that is greater than the id specified."
+        in: "query"
+        required: false
+      - name: "sinceDate"
+        type: "string"
+        format: "yyyy-mm-dd"
+        description: "This will return hours that have been added to the system since the date specified."
+        in: "query"
+        required: false
+      - name: "return"
+        type: "array"
+        items:
+          enum: [referenceId]
+        description: "Request additional hour data as part of the result set. You may only use 'referenceId' for now. e.g. return[]='referenceId'"
+        in: "query"
+        required: false
+      - name: "status"
+        type: "array"
+        items:
+          enum: [entered, inactive, pending, approved, denied]
+        description: "This will filter results based on item's current status. You may use any combination of 'entered', 'inactive', 'pending', 'approved', 'denied'"
+        in: "query"
+        required: false
+           
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/HourListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/get/:
+    get:
+      tags:
+      - "hour"
+      summary: "Get an hour record by id"
+      description: "Use this endpoint to obtain information about a single hours entry on your site. The hours’ user must be active, the hours’ need must not be inactive, the hours’ agency must not be inactive, and the hours must be on your site. Submit the `hourId` parameter to complete the get, where the id is the hour id on our site."
+      operationId: "getHourById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hourId"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
   
   /event/list:
     get:
@@ -996,6 +1097,24 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/Response"
+            
+  HourByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Hour"
+            
+  HourListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Hour"
             
   EventListResponse:
     allOf:
