@@ -1612,22 +1612,7 @@ definitions:
         type: "array"
         description: "The shift attached to this response. Shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status"
         items: 
-          type: "object"
-          properties:
-            shiftId:
-              type: "string"
-            startDate:
-              type: "string"
-            endDate:
-              type: "string"
-            duration:
-              type: "string"
-            capacity:
-              type: "string"
-            responses:
-              type: "string"
-            status:
-              type: "string"
+          $ref: "#/definitions/Shift"
       responseAdded:
         type: "string"
         description: "The time, in ISO 8601 format, that this link will expire."
@@ -1640,6 +1625,110 @@ definitions:
     required:
     - "responseId"
     - "responseStatus"
+    
+  Hour:
+    type: "object"
+    
+    properties:
+      hourId:
+        type: "string"
+        description: "Unique identifier for the record."
+        pattern: "^[0-9]+$" 
+        example : "127017"
+      status:
+        type: "string"
+        description: "Current status of the record."
+        example : "approved"
+      contactName:
+        type: "string"
+        description: "Contact name from the need."
+        example : ""
+      contactDetails:
+        type: "string"
+        description: "Contact details from the need."
+        example : ""
+      hours:
+        type: "string"
+        description: "Number of hours submitted for this entry."
+        example : "3.00"
+      volunteerDate:
+        type: "string"
+        description: "The date and time the volunteer began."
+      hourType:
+        type: "string"
+        description: "Type of hour entry. Either need or individual."
+      miles:
+        type: "string"
+        description: "Number of miles submitted for this entry."
+        example: "5"
+      location:
+        type: "string"
+        description: "Location information added by the user."
+        example: ""
+      description:
+        type: "string"
+        description: "Description information added by the user for this entry."
+        example: "Explored trail to get idea of how much work and what tools will be required."
+      agencyId:
+        type: "string"
+        description: "Id of the agency that created the need."
+        example: "33317"
+      agencyName:
+        type: "string"
+        description: "Name of the agency that created the need."
+        example: "Mountain Trail Club"
+      aemId:
+        type: "string"
+        description: "Unique ID of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$"
+      aemTitle:
+        type: "string"
+        description: "Title of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$"
+      needId:
+        type: "string"
+        description: "ID of the need to which the user responded."
+        example: "93929"
+      needTitle:
+        type: "string"
+        description: "Name of the need to which the user responded."
+        example: "Trail Maintenance on the Singing Creek Trail"
+      needDate:
+        type: "string"
+        description: "Date of the need to which the user responded."
+        format: "yyyy-mm-dd"
+        example: "2015-03-28"
+      userId:
+        type: "string"
+        description: "ID of the user who responded."
+        format: "yyyy-mm-dd"
+        example: "613928"
+      firstName:
+        type: "string"
+        description: "First name of the user who responded."
+        example: "Ada"
+      lastName:
+        type: "string"
+        description: "Last name of the user who responded."
+        example: "User"
+      email:
+        type: "string"
+        description: "Email name of the user who responded."
+        example: "user@example.com"
+      dateAdded:
+        type: "string"
+        description: "The date, in ISO 8601 format, that hour entry was added."
+        example: "2015-03-05T08:38:37-06:00"
+      dateUpdated:
+        type: "string"
+        description: "The date, in ISO 8601 format, that hour entry was last updated."
+        example: "2015-03-05T08:40:02-06:00"
+        
+    required:
+    - "hourId"
+    - "hours"
+    - "needId"
+    - "userId"
     
     
   ApiResponse:
