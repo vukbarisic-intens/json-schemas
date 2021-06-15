@@ -447,12 +447,49 @@ paths:
         in: "query"
         required: false
       
-    
       responses:
         "200":
           description: "successfully retrieved response containing a page of records"
           schema:
             $ref: "#/definitions/NeedListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /need/get:
+    get:
+      tags:
+      - "need"
+      produces:
+      - "application/json"
+      summary: "Get a single need by id"
+      description: "Use this endpoint to obtain information about a single need on your site. The need must be active, non expired, and on your site. Submit the `id` parameter to complete the get, where the id is the need ID on your site."
+      operationId: "getNeedById"
+      parameters:
+      - name: "id"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+        pattern: "^[0-9]+$"
+      - name: "showExpired"
+        type: "boolean"
+        description: "This will allow expired needs to be part of the result set."
+        in: "query"
+        required: true
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/NeedByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+      
+      
   
   /response/list:
     get:
@@ -933,6 +970,14 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/Need"
+            
+  NeedByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Need"
           
   ResponseByIdResponse:
     allOf:
