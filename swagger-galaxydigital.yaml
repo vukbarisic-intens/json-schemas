@@ -588,8 +588,6 @@ paths:
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
   
-  
-  
   /response/get:
     get:
       tags:
@@ -616,50 +614,27 @@ paths:
           description: "Invalid API Key."
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
+  
   /response/add:
-    get:
+    post:
       tags:
       - "response"
-      summary: "Get a single response by id"
+      summary: "Add a new reponse entry"
       description: "You can create a response between a user on your site and a need on your site using this post. In addition to being on your site, the user must have a status of active, pending, imported, or inactive. In addition to being on your site, the need must be active and non expired. A response will be recorded to the user and need you specify, that need’s agency will be recorded, the current time will be added as the date added and updated, and status will be active."
       operationId: "addNewResponse"
       produces:
       - "application/json"
       parameters:
-      - name: "needId"
-        type: "integer"
-        description: "ID of the need from this response."
-        in: "query"
-        required: false
-      
-      - name: "userId"
-        type: "integer"
-        description: "ID of the user from this response."
-        in: "query"
-        required: false
-      
-      - name: "responsePhone"
-        type: "string"
-        description: "Phone number of the responder."
-        in: "query"
-        required: false
-      
-      - name: "responseAddress"
-        type: "string"
-        description: "Address of the responder."
-        in: "query"
-        required: false
-      
-      - name: "responseNote"
-        type: "string"
-        description: "Comment to add to the response."
-        in: "query"
-        required: false
-      
+      - in: "body"
+        name: "body"
+        description: "Response entry that needs to be added."
+        required: true
+        schema:
+          $ref: "#/definitions/AddNewResponseBody"
       
       responses:
         "200":
-          description: "Successfully added a new record"
+          description: "Successfully added a new entry"
           schema:
             $ref: "#/definitions/ResponseByIdResponse"
         "403":
@@ -667,6 +642,162 @@ paths:
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
             
+  /hour/list:
+    get:
+      tags:
+      - "hour"
+      summary: "Get a page of hour records"
+      description: "Use this endpoint to obtain a list of all hours on your domain with a variety of data about the hours as well as data about the user, agency, and need. The hours’ user must be active, the hours’ need must not be inactive, the hours’ agency must not be inactive, the hours must be active, and the hours must be on your site."
+      operationId: "getHourList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        type: "integer"
+        description: "Number of records you wish to skip before your result set starts. This is used for pagination."
+        in: "query"
+        required: false
+      - name: "limit"
+        type: "integer"
+        description: "This will limit the number of records returned. The maximum number you can return at one time is 50."
+        in: "query"
+        required: false
+        maximum: 5
+      - name: "agencyId"
+        type: "integer"
+        description: "This will return hours applied to needs for the specific agency."
+        in: "query"
+        required: false
+      - name: "needId"
+        type: "integer"
+        description: "This will return hours applied to a specific need."
+        in: "query"
+        required: false
+      - name: "userId"
+        type: "integer"
+        description: "This will return hours submitted by a specific user."
+        in: "query"
+        required: false
+      - name: "aemId"
+        type: "integer"
+        description: "This will return hours part of a specific Advanced Event."
+        in: "query"
+        required: false
+      - name: "sinceId"
+        type: "integer"
+        description: "This will return hours with an id that is greater than the id specified."
+        in: "query"
+        required: false
+      - name: "sinceDate"
+        type: "string"
+        format: "yyyy-mm-dd"
+        description: "This will return hours that have been added to the system since the date specified."
+        in: "query"
+        required: false
+      - name: "return"
+        type: "array"
+        items:
+          enum: [referenceId]
+        description: "Request additional hour data as part of the result set. You may only use 'referenceId' for now. e.g. return[]='referenceId'"
+        in: "query"
+        required: false
+      - name: "status"
+        type: "array"
+        items:
+          enum: [entered, inactive, pending, approved, denied]
+        description: "This will filter results based on item's current status. You may use any combination of 'entered', 'inactive', 'pending', 'approved', 'denied'"
+        in: "query"
+        required: false
+           
+      responses:
+        "200":
+          description: "successfully retrieved response containing a page of records"
+          schema:
+            $ref: "#/definitions/HourListResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/get/:
+    get:
+      tags:
+      - "hour"
+      summary: "Get an hour record by id"
+      description: "Use this endpoint to obtain information about a single hours entry on your site. The hours’ user must be active, the hours’ need must not be inactive, the hours’ agency must not be inactive, and the hours must be on your site. Submit the `hourId` parameter to complete the get, where the id is the hour id on our site."
+      operationId: "getHourById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "hourId"
+        type: "string"
+        description: "Unique identifier of record you wish to have returned."
+        in: "query"
+        required: true
+      
+      responses:
+        "200":
+          description: "successfully retrieved response containing a record"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/add/:
+    post:
+      tags:
+      - "hour"
+      summary: "Add a new volunteering hours entry."
+      description: "You can create an hours entry for a user on your site and a need on your site using this post. The user must have a status of active, pending, imported, or inactive. The hours will be created for the user and the need, the status will be “approved,” the current time will be added as the date added and updated, and the “hours” value you supply will be recorded as the duration."
+      operationId: "addNewHour"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Volunteering hours entry that needs to be added."
+        required: true
+        schema:
+          $ref: "#/definitions/AddNewHoursBody"
+
+      responses:
+        "200":
+          description: "successfully added a new hour entry"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/update/:
+    post:
+      tags:
+      - "hour"
+      summary: "Update existing volunteering hours entry."
+      description: "Use this POST to update an existing hours entry. Add as many parameters as you like to replace current data. The hours updated must be associated with an active user, a need that is not inactive, an agency that is not inactive, and be on your site."
+      operationId: "updateHour"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated fields (and id) for an existin volunteering hours entry."
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateHoursBody"
+
+      responses:
+        "200":
+          description: "successfully updated an hour entry"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
   
   /event/list:
     get:
@@ -740,6 +871,7 @@ definitions:
     required:
     - "message"
     
+  
   AddNewUserBody:
     type: "object"
     properties:
@@ -907,6 +1039,98 @@ definitions:
     - "lastName"
     - "email"
     - "password"
+    
+    
+  AddNewResponseBody:
+    type: "object"
+    properties:
+      needId:
+        type: "number"
+        description: "ID of the need from this response."
+      userId:
+        type: "number"
+        description: "ID of the user from this response."
+      responsePhone:
+        type: "string"
+        description: "Phone number of the responder."
+      responseAddress:
+        type: "string"
+        description: "Address of the responder."
+      responseNote:
+        type: "string"
+        description: "Comment to add to the response."
+        
+    required:
+    - "needId"
+    - "userId"
+
+  
+  AddNewHoursBody:
+    type: "object"
+    properties:
+      needId:
+        type: "number"
+        description: "ID of the need from this response."
+      userId:
+        type: "number"
+        description: "ID of the user from this response."
+      hours:
+        type: "number"
+        description: "Number of hours volunteered."
+      miles:
+        type: "number"
+        description: "Miles traveled for this volunteer event."
+      location:
+        type: "string"
+        description: "Location where volunteer event happened."
+      description:
+        type: "string"
+        description: "Other notes about volunteer hour entry."
+      contactName:
+        type: "string"
+        description: "Contact of someone who can confirm this hour entry."
+      contactDetails:
+        type: "string"
+        description: "Addional contact information for hour confirmation."
+    
+    required:
+    - "needId"
+    - "userId"
+    - "hours"
+    
+    
+  UpdateHoursBody:
+    type: "object"
+    properties:
+      hourId:
+        type: "string"
+        description: "The unique ID for the entry you wish to edit."
+      hours:
+        type: "number"
+        description: "Number of hours volunteered."
+      status:
+        type: "string"
+        enum: [approved, pending, denied, inactive, entered]
+        description: "Approval status of hour entry. e.g. 'approved', 'pending', 'denied', 'inactive', or 'entered'"
+      miles:
+        type: "number"
+        description: "Miles traveled for this volunteer event."
+      location:
+        type: "string"
+        description: "Location where volunteer event happened."
+      description:
+        type: "string"
+        description: "Other notes about volunteer hour entry."
+      contactName:
+        type: "string"
+        description: "Contact of someone who can confirm this hour entry."
+      contactDetails:
+        type: "string"
+        description: "Addional contact information for hour confirmation."
+        
+    required:
+    - "hourId"
+    
 
   BaseListResponse:
     allOf:
@@ -926,6 +1150,7 @@ definitions:
           description: "Maximum number of records to return on page"
           example: 10
           
+  
   UserListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -935,6 +1160,8 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/User"
+  
+  
   UserByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -943,6 +1170,7 @@ definitions:
         data:
           $ref: "#/definitions/User"
             
+  
   AgencyListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -953,6 +1181,7 @@ definitions:
           items:
             $ref: "#/definitions/Agency"
   
+ 
   AgencyByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -961,6 +1190,7 @@ definitions:
         data:
           $ref: "#/definitions/Agency"
           
+  
   NeedListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -971,6 +1201,7 @@ definitions:
           items:
             $ref: "#/definitions/Need"
             
+  
   NeedByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -979,6 +1210,7 @@ definitions:
         data:
           $ref: "#/definitions/Need"
           
+  
   ResponseByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -987,6 +1219,7 @@ definitions:
         data:
           $ref: "#/definitions/Response"
           
+  
   ResponseListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -997,6 +1230,27 @@ definitions:
           items:
             $ref: "#/definitions/Response"
             
+  
+  HourByIdResponse:
+    allOf:
+    - $ref: "#/definitions/BaseResponse"
+    - type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/Hour"
+            
+  
+  HourListResponse:
+    allOf:
+    - $ref: "#/definitions/BaseListResponse"
+    - type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/definitions/Hour"
+            
+  
   EventListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1007,6 +1261,7 @@ definitions:
           items:
             $ref: "#/definitions/Event"
   
+  
   EventByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1014,6 +1269,7 @@ definitions:
       properties:
         data:
           $ref: "#/definitions/Event"
+  
   
   NoApiKeyResponse:
     type: "object"
@@ -1025,6 +1281,7 @@ definitions:
         type: "string"
         example: "Invalid API Key."
         
+  
   User:
     type: "object"
     properties:
@@ -1134,6 +1391,7 @@ definitions:
     required:
     - "id"
     
+  
   Agency:
     type: "object"
    
@@ -1220,6 +1478,7 @@ definitions:
     - "id"
     - "agencyName"
     
+  
   Need:
     type: "object"
     
@@ -1380,6 +1639,7 @@ definitions:
       - "agencyId"
       - "agencyName"
           
+  
   Qualification:
     type: "object"
     
@@ -1391,6 +1651,7 @@ definitions:
       qualificationTitle:
         type: "string"
           
+  
   Shift:
     type: "object"
     
@@ -1410,6 +1671,7 @@ definitions:
       status:
         type: "string"
 
+  
   Event:
     type: "object"
    
@@ -1508,6 +1770,7 @@ definitions:
     required:
     - "eventId"
     
+  
   Response:
     type: "object"
    
@@ -1612,22 +1875,7 @@ definitions:
         type: "array"
         description: "The shift attached to this response. Shift item consists of shiftId, startDate, endDate, duration, capacity, responses, and status"
         items: 
-          type: "object"
-          properties:
-            shiftId:
-              type: "string"
-            startDate:
-              type: "string"
-            endDate:
-              type: "string"
-            duration:
-              type: "string"
-            capacity:
-              type: "string"
-            responses:
-              type: "string"
-            status:
-              type: "string"
+          $ref: "#/definitions/Shift"
       responseAdded:
         type: "string"
         description: "The time, in ISO 8601 format, that this link will expire."
@@ -1641,17 +1889,111 @@ definitions:
     - "responseId"
     - "responseStatus"
     
-    
-  ApiResponse:
+  
+  Hour:
     type: "object"
+    
     properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
+      hourId:
         type: "string"
-      message:
+        description: "Unique identifier for the record."
+        pattern: "^[0-9]+$" 
+        example : "127017"
+      status:
         type: "string"
+        description: "Current status of the record."
+        example : "approved"
+      contactName:
+        type: "string"
+        description: "Contact name from the need."
+        example : ""
+      contactDetails:
+        type: "string"
+        description: "Contact details from the need."
+        example : ""
+      hours:
+        type: "string"
+        description: "Number of hours submitted for this entry."
+        example : "3.00"
+      volunteerDate:
+        type: "string"
+        description: "The date and time the volunteer began."
+      hourType:
+        type: "string"
+        description: "Type of hour entry. Either need or individual."
+      miles:
+        type: "string"
+        description: "Number of miles submitted for this entry."
+        example: "5"
+      location:
+        type: "string"
+        description: "Location information added by the user."
+        example: ""
+      description:
+        type: "string"
+        description: "Description information added by the user for this entry."
+        example: "Explored trail to get idea of how much work and what tools will be required."
+      agencyId:
+        type: "string"
+        description: "Id of the agency that created the need."
+        example: "33317"
+      agencyName:
+        type: "string"
+        description: "Name of the agency that created the need."
+        example: "Mountain Trail Club"
+      aemId:
+        type: "string"
+        description: "Unique ID of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$"
+      aemTitle:
+        type: "string"
+        description: "Title of the Advanced Event attached to this item."
+        pattern: "^[0-9]+$"
+      needId:
+        type: "string"
+        description: "ID of the need to which the user responded."
+        example: "93929"
+      needTitle:
+        type: "string"
+        description: "Name of the need to which the user responded."
+        example: "Trail Maintenance on the Singing Creek Trail"
+      needDate:
+        type: "string"
+        description: "Date of the need to which the user responded."
+        format: "yyyy-mm-dd"
+        example: "2015-03-28"
+      userId:
+        type: "string"
+        description: "ID of the user who responded."
+        format: "yyyy-mm-dd"
+        example: "613928"
+      firstName:
+        type: "string"
+        description: "First name of the user who responded."
+        example: "Ada"
+      lastName:
+        type: "string"
+        description: "Last name of the user who responded."
+        example: "User"
+      email:
+        type: "string"
+        description: "Email name of the user who responded."
+        example: "user@example.com"
+      dateAdded:
+        type: "string"
+        description: "The date, in ISO 8601 format, that hour entry was added."
+        example: "2015-03-05T08:38:37-06:00"
+      dateUpdated:
+        type: "string"
+        description: "The date, in ISO 8601 format, that hour entry was last updated."
+        example: "2015-03-05T08:40:02-06:00"
+        
+    required:
+    - "hourId"
+    - "hours"
+    - "needId"
+    - "userId"
+
 externalDocs:
   description: "Find out more about Galaxy Digital"
   url: "https://www.galaxydigital.com/"
