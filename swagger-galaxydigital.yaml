@@ -616,49 +616,25 @@ paths:
             $ref: "#/definitions/NoApiKeyResponse"
   
   /response/add:
-    get:
+    post:
       tags:
       - "response"
-      summary: "Get a single response by id"
+      summary: "Add a new reponse entry"
       description: "You can create a response between a user on your site and a need on your site using this post. In addition to being on your site, the user must have a status of active, pending, imported, or inactive. In addition to being on your site, the need must be active and non expired. A response will be recorded to the user and need you specify, that need’s agency will be recorded, the current time will be added as the date added and updated, and status will be active."
       operationId: "addNewResponse"
       produces:
       - "application/json"
       parameters:
-      - name: "needId"
-        type: "integer"
-        description: "ID of the need from this response."
-        in: "query"
-        required: false
-      
-      - name: "userId"
-        type: "integer"
-        description: "ID of the user from this response."
-        in: "query"
-        required: false
-      
-      - name: "responsePhone"
-        type: "string"
-        description: "Phone number of the responder."
-        in: "query"
-        required: false
-      
-      - name: "responseAddress"
-        type: "string"
-        description: "Address of the responder."
-        in: "query"
-        required: false
-      
-      - name: "responseNote"
-        type: "string"
-        description: "Comment to add to the response."
-        in: "query"
-        required: false
-      
+      - in: "body"
+        name: "body"
+        description: "Response entry that needs to be added."
+        required: true
+        schema:
+          $ref: "#/definitions/AddNewResponseBody"
       
       responses:
         "200":
-          description: "Successfully added a new record"
+          description: "Successfully added a new entry"
           schema:
             $ref: "#/definitions/ResponseByIdResponse"
         "403":
@@ -895,6 +871,7 @@ definitions:
     required:
     - "message"
     
+  
   AddNewUserBody:
     type: "object"
     properties:
@@ -1063,6 +1040,31 @@ definitions:
     - "email"
     - "password"
     
+    
+  AddNewResponseBody:
+    type: "object"
+    properties:
+      needId:
+        type: "number"
+        description: "ID of the need from this response."
+      userId:
+        type: "number"
+        description: "ID of the user from this response."
+      responsePhone:
+        type: "string"
+        description: "Phone number of the responder."
+      responseAddress:
+        type: "string"
+        description: "Address of the responder."
+      responseNote:
+        type: "string"
+        description: "Comment to add to the response."
+        
+    required:
+    - "needId"
+    - "userId"
+
+  
   AddNewHoursBody:
     type: "object"
     properties:
@@ -1148,6 +1150,7 @@ definitions:
           description: "Maximum number of records to return on page"
           example: 10
           
+  
   UserListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1157,6 +1160,8 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/User"
+  
+  
   UserByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1165,6 +1170,7 @@ definitions:
         data:
           $ref: "#/definitions/User"
             
+  
   AgencyListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1175,6 +1181,7 @@ definitions:
           items:
             $ref: "#/definitions/Agency"
   
+ 
   AgencyByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1183,6 +1190,7 @@ definitions:
         data:
           $ref: "#/definitions/Agency"
           
+  
   NeedListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1193,6 +1201,7 @@ definitions:
           items:
             $ref: "#/definitions/Need"
             
+  
   NeedByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1201,6 +1210,7 @@ definitions:
         data:
           $ref: "#/definitions/Need"
           
+  
   ResponseByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1209,6 +1219,7 @@ definitions:
         data:
           $ref: "#/definitions/Response"
           
+  
   ResponseListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1219,6 +1230,7 @@ definitions:
           items:
             $ref: "#/definitions/Response"
             
+  
   HourByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1227,6 +1239,7 @@ definitions:
         data:
           $ref: "#/definitions/Hour"
             
+  
   HourListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1237,6 +1250,7 @@ definitions:
           items:
             $ref: "#/definitions/Hour"
             
+  
   EventListResponse:
     allOf:
     - $ref: "#/definitions/BaseListResponse"
@@ -1247,6 +1261,7 @@ definitions:
           items:
             $ref: "#/definitions/Event"
   
+  
   EventByIdResponse:
     allOf:
     - $ref: "#/definitions/BaseResponse"
@@ -1254,6 +1269,7 @@ definitions:
       properties:
         data:
           $ref: "#/definitions/Event"
+  
   
   NoApiKeyResponse:
     type: "object"
@@ -1265,6 +1281,7 @@ definitions:
         type: "string"
         example: "Invalid API Key."
         
+  
   User:
     type: "object"
     properties:
@@ -1374,6 +1391,7 @@ definitions:
     required:
     - "id"
     
+  
   Agency:
     type: "object"
    
@@ -1460,6 +1478,7 @@ definitions:
     - "id"
     - "agencyName"
     
+  
   Need:
     type: "object"
     
@@ -1620,6 +1639,7 @@ definitions:
       - "agencyId"
       - "agencyName"
           
+  
   Qualification:
     type: "object"
     
@@ -1631,6 +1651,7 @@ definitions:
       qualificationTitle:
         type: "string"
           
+  
   Shift:
     type: "object"
     
@@ -1650,6 +1671,7 @@ definitions:
       status:
         type: "string"
 
+  
   Event:
     type: "object"
    
@@ -1748,6 +1770,7 @@ definitions:
     required:
     - "eventId"
     
+  
   Response:
     type: "object"
    
@@ -1866,6 +1889,7 @@ definitions:
     - "responseId"
     - "responseStatus"
     
+  
   Hour:
     type: "object"
     
@@ -1969,18 +1993,7 @@ definitions:
     - "hours"
     - "needId"
     - "userId"
-    
-    
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
+
 externalDocs:
   description: "Find out more about Galaxy Digital"
   url: "https://www.galaxydigital.com/"
