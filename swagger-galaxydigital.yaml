@@ -768,6 +768,60 @@ paths:
           description: "Invalid API Key."
           schema:
             $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/add/:
+    post:
+      tags:
+      - "hour"
+      summary: "Add a new volunteering hours entry."
+      description: "You can create an hours entry for a user on your site and a need on your site using this post. The user must have a status of active, pending, imported, or inactive. The hours will be created for the user and the need, the status will be “approved,” the current time will be added as the date added and updated, and the “hours” value you supply will be recorded as the duration."
+      operationId: "addNewHour"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Volunteering hours entry that needs to be added."
+        required: true
+        schema:
+          $ref: "#/definitions/AddNewHoursBody"
+
+      responses:
+        "200":
+          description: "successfully added a new hour entry"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
+            
+  /hour/update/:
+    post:
+      tags:
+      - "hour"
+      summary: "Update existing volunteering hours entry."
+      description: "Use this POST to update an existing hours entry. Add as many parameters as you like to replace current data. The hours updated must be associated with an active user, a need that is not inactive, an agency that is not inactive, and be on your site."
+      operationId: "updateHour"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated fields (and id) for an existin volunteering hours entry."
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateHoursBody"
+
+      responses:
+        "200":
+          description: "successfully updated an hour entry"
+          schema:
+            $ref: "#/definitions/HourByIdResponse"
+        "403":
+          description: "Invalid API Key."
+          schema:
+            $ref: "#/definitions/NoApiKeyResponse"
   
   /event/list:
     get:
@@ -1008,6 +1062,73 @@ definitions:
     - "lastName"
     - "email"
     - "password"
+    
+  AddNewHoursBody:
+    type: "object"
+    properties:
+      needId:
+        type: "number"
+        description: "ID of the need from this response."
+      userId:
+        type: "number"
+        description: "ID of the user from this response."
+      hours:
+        type: "number"
+        description: "Number of hours volunteered."
+      miles:
+        type: "number"
+        description: "Miles traveled for this volunteer event."
+      location:
+        type: "string"
+        description: "Location where volunteer event happened."
+      description:
+        type: "string"
+        description: "Other notes about volunteer hour entry."
+      contactName:
+        type: "string"
+        description: "Contact of someone who can confirm this hour entry."
+      contactDetails:
+        type: "string"
+        description: "Addional contact information for hour confirmation."
+    
+    required:
+    - "needId"
+    - "userId"
+    - "hours"
+    
+    
+  UpdateHoursBody:
+    type: "object"
+    properties:
+      hourId:
+        type: "string"
+        description: "The unique ID for the entry you wish to edit."
+      hours:
+        type: "number"
+        description: "Number of hours volunteered."
+      status:
+        type: "string"
+        enum: [approved, pending, denied, inactive, entered]
+        description: "Approval status of hour entry. e.g. 'approved', 'pending', 'denied', 'inactive', or 'entered'"
+      miles:
+        type: "number"
+        description: "Miles traveled for this volunteer event."
+      location:
+        type: "string"
+        description: "Location where volunteer event happened."
+      description:
+        type: "string"
+        description: "Other notes about volunteer hour entry."
+      contactName:
+        type: "string"
+        description: "Contact of someone who can confirm this hour entry."
+      contactDetails:
+        type: "string"
+        description: "Addional contact information for hour confirmation."
+        
+    required:
+    - "hourId"
+    
 
   BaseListResponse:
     allOf:
